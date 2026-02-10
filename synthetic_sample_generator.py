@@ -20,11 +20,9 @@ def load_model(config_path, ckpt_path, device='cuda'):
     config = load_config(config_path)
     model = CSDI_PM25(config, device=device)
     
-    # Load checkpoint (it's an OrderedDict of weights)
     checkpoint = torch.load(ckpt_path, map_location=device)
     model.load_state_dict(checkpoint)
     
-    # CRITICAL: Move model to device AFTER loading weights
     model = model.to(device)
     model.eval()
     return model, config
@@ -42,7 +40,6 @@ def generate_conditional_samples(model, test_loader, S=100, device='cuda', batch
         batch_size: Batch size for generation
         max_conditions: If not None, only generate for first N conditions (for testing)
     
-    Returns NORMALIZED samples (as output by the model).
     """
     synthetic_list = []
     real_list = []
@@ -61,26 +58,22 @@ def generate_conditional_samples(model, test_loader, S=100, device='cuda', batch
     
     with torch.no_grad():
         for batch_idx, batch in enumerate(tqdm(test_loader, desc="Processing test batches")):
-            # Check if we've processed enough conditions
+
             if max_conditions is not None and conditions_processed >= max_conditions:
                 break
             
-            # Extract data (ALREADY NORMALIZED from dataset)
             cond = batch['conditioning_data'].to(device)  # [B, D, T]
-            real = batch['observed_data'].to(device)  # [B, D, T] - NORMALIZED
+            real = batch['observed_data'].to(device)  # [B, D, T]
             
             B = cond.shape[0]
             
-            # Generate S samples for each condition in batch
             for i in range(B):
-                # Check if we've hit the limit
                 if max_conditions is not None and conditions_processed >= max_conditions:
                     break
                 
                 cond_single = cond[i:i+1]  # [1, D, T]
                 real_single = real[i:i+1]  # [1, D, T]
                 
-                # Generate S samples in smaller batches
                 samples_for_this_condition = []
                 num_batches = (S + batch_size - 1) // batch_size
                 
@@ -89,26 +82,21 @@ def generate_conditional_samples(model, test_loader, S=100, device='cuda', batch
                     batch_end = min((batch_idx + 1) * batch_size, S)
                     current_batch_size = batch_end - batch_start
                     
-                    # Repeat conditioning for this mini-batch
                     cond_repeated = cond_single.repeat(current_batch_size, 1, 1)
                     
-                    # Generate samples for this mini-batch
-                    # synthesize() returns NORMALIZED data: [B, T, D]
                     synth_batch = model.synthesize(conditioning_data=cond_repeated)
                     samples_for_this_condition.append(synth_batch.cpu())
                 
-                # Concatenate all batches for this condition
-                synth = torch.cat(samples_for_this_condition, dim=0)  # [S, T, D] - NORMALIZED
+                synth = torch.cat(samples_for_this_condition, dim=0)  # [S, T, D]
                 
                 synthetic_list.append(synth.numpy())
-                real_list.append(real_single.squeeze(0).permute(1, 0).cpu().numpy())  # [T, D] - NORMALIZED
+                real_list.append(real_single.squeeze(0).permute(1, 0).cpu().numpy())  # [T, D]
                 conditioning_list.append(cond_single.squeeze(0).permute(1, 0).cpu().numpy())
                 
                 conditions_processed += 1
-    
-    # Stack into arrays
-    synthetic_samples = np.stack(synthetic_list, axis=0)  # [K_actual, S, T, D] - NORMALIZED
-    real_samples = np.stack(real_list, axis=0)  # [K_actual, T, D] - NORMALIZED
+
+    synthetic_samples = np.stack(synthetic_list, axis=0)  # [K_actual, S, T, D] 
+    real_samples = np.stack(real_list, axis=0)  # [K_actual, T, D]
     conditioning = np.stack(conditioning_list, axis=0)  # [K_actual, T, cond_dim]
     
     print(f"Generated samples for {conditions_processed} conditions")
@@ -133,14 +121,11 @@ def generate_unconditional_samples(model, K=2144, S=100, device='cuda', batch_si
         for batch_idx in tqdm(range(num_batches), desc="Generating unconditional samples"):
             batch_size_actual = min(batch_size, total_samples - batch_idx * batch_size)
             
-            # Generate batch - returns NORMALIZED data: [B, T, D]
             synth = model.synthesize(batch_size=batch_size_actual)
             synthetic_list.append(synth.cpu().numpy())
     
-    # Concatenate all batches
-    all_samples = np.concatenate(synthetic_list, axis=0)  # [K*S, T, D] - NORMALIZED
+    all_samples = np.concatenate(synthetic_list, axis=0) 
     
-    # Reshape to [K, S, T, D]
     synthetic_samples = all_samples.reshape(K, S, all_samples.shape[1], all_samples.shape[2])
     
     return synthetic_samples
@@ -150,9 +135,6 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
                 conditioning=None, target_mean=None, target_std=None):
     """
     Save generated samples and metadata.
-    
-    CRITICAL: synthetic_samples and real_samples are NORMALIZED.
-    We save them as-is (normalized) along with the normalization parameters.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -160,7 +142,6 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
     print(f"\n  Saving {model_name}...")
     print(f"    Synthetic shape: {synthetic_samples.shape} (NORMALIZED)")
     
-    # Check data quality
     synth_valid = synthetic_samples[np.isfinite(synthetic_samples)]
     if synth_valid.size > 0:
         print(f"    Synthetic stats: mean={synth_valid.mean():.4f}, std={synth_valid.std():.4f}")
@@ -168,14 +149,12 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
     else:
         print(f"    ⚠️  WARNING: All synthetic samples are NaN!")
     
-    # Save synthetic samples (NORMALIZED)
     torch.save(
         torch.from_numpy(synthetic_samples),
         output_dir / f"{model_name}_synthetic.pt"
     )
     print(f"    ✓ Saved: {model_name}_synthetic.pt (NORMALIZED)")
     
-    # Save real samples if provided (NORMALIZED)
     if real_samples is not None:
         print(f"    Real shape: {real_samples.shape} (NORMALIZED)")
         real_valid = real_samples[np.isfinite(real_samples)]
@@ -189,7 +168,6 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
         )
         print(f"    ✓ Saved: {model_name}_real.pt (NORMALIZED)")
     
-    # Save conditioning if provided
     if conditioning is not None:
         torch.save(
             torch.from_numpy(conditioning),
@@ -197,14 +175,11 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
         )
         print(f"    ✓ Saved: {model_name}_conditioning.pt")
     
-    # Save normalization parameters
     if target_mean is not None and target_std is not None:
-        # Ensure correct shape: (1, 1, D)
         if target_mean.ndim == 1:
             target_mean = target_mean.reshape(1, 1, -1)
             target_std = target_std.reshape(1, 1, -1)
         elif target_mean.ndim == 3 and target_mean.shape[1] == 1:
-            # Already correct shape
             pass
         else:
             raise ValueError(f"Unexpected target_mean shape: {target_mean.shape}")
@@ -220,7 +195,6 @@ def save_results(output_dir, model_name, synthetic_samples, real_samples=None,
         }, output_dir / f"{model_name}_normalization.pt")
         print(f"    ✓ Saved: {model_name}_normalization.pt")
     
-    # Save metadata
     metadata = {
         'shape': synthetic_samples.shape,
         'description': f"Shape: [K={synthetic_samples.shape[0]}, S={synthetic_samples.shape[1]}, T={synthetic_samples.shape[2]}, D={synthetic_samples.shape[3]}]",
@@ -243,18 +217,10 @@ def run_inference_all(models_config, output_dir='./synthetic_samples_fixed', S=1
         device: Device to run on
         test_subset: If not None, only generate for first N test conditions (for quick testing)
     
-    CRITICAL: This function ensures that:
-    1. All models use the SAME target_mean.npy and target_std.npy
-    2. Synthetic and real samples are saved in NORMALIZED form
-    3. Normalization parameters are saved for later unnormalization
     """
-    print("="*80)
-    print("RUNNING INFERENCE ON ALL MODELS")
     if test_subset is not None:
         print(f"TEST MODE: Using only first {test_subset} conditions")
-    print("="*80)
     
-    # Load normalization parameters ONCE (should be same for all models)
     print("\nLoading normalization parameters...")
     target_mean = np.load('target_mean.npy')
     target_std = np.load('target_std.npy')
@@ -274,18 +240,15 @@ def run_inference_all(models_config, output_dir='./synthetic_samples_fixed', S=1
             print(f"  Conditioning type: {conditioning_type}")
         
         try:
-            # Load model
             model, config = load_model(config_path, ckpt_path, device)
             
-            # Check if unconditional or conditional
             is_unconditional = config['model'].get('is_unconditional', False)
             
             if is_unconditional:
-                # Unconditional generation
                 if test_subset is not None:
                     K_unconditional = test_subset
                 else:
-                    K_unconditional = 2144  # Match test set size
+                    K_unconditional = 2144
                 
                 print(f"\n  Unconditional mode:")
                 print(f"    Generating {K_unconditional} pseudo-conditions x {S} samples")
@@ -294,7 +257,6 @@ def run_inference_all(models_config, output_dir='./synthetic_samples_fixed', S=1
                     model, K=K_unconditional, S=S, device=device
                 )
                 
-                # Check synthetic data is normalized
                 synth_mean = np.nanmean(synthetic_samples)
                 synth_std = np.nanstd(synthetic_samples)
                 print(f"\n  Generated data check:")
@@ -312,7 +274,6 @@ def run_inference_all(models_config, output_dir='./synthetic_samples_fixed', S=1
                     target_std=target_std
                 )
             else:
-                # Conditional generation
                 print(f"\n  Conditional mode:")
                 print(f"    Loading test data...")
                 
@@ -329,7 +290,6 @@ def run_inference_all(models_config, output_dir='./synthetic_samples_fixed', S=1
                     model, test_loader, S=S, device=device, max_conditions=test_subset
                 )
                 
-                # Check both synthetic and real data are normalized
                 synth_mean = np.nanmean(synthetic_samples)
                 synth_std = np.nanstd(synthetic_samples)
                 real_mean = np.nanmean(real_samples)
@@ -400,28 +360,21 @@ def main():
         )
     }
     
-    # Device configuration
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f"Using device: {device}")
     
-    # ================================================================
-    # SET TEST_SUBSET HERE FOR QUICK TESTING
-    # ================================================================
-    # test_subset = 100  # Use only first 100 conditions for quick testing
-    # test_subset = 50   # Even faster - just 50 conditions
-    test_subset = None   # Use all conditions (full run)
+    test_subset = None 
     
     if test_subset is not None:
         print(f"\n⚠️  RUNNING IN TEST MODE: Only {test_subset} conditions")
         print(f"⚠️  Change test_subset=None in main() for full run\n")
-    
-    # Run inference
+
     run_inference_all(
         models_config=models_config,
         output_dir='./synthetic_samples',
         S=100,
         device=device,
-        test_subset=test_subset  # Pass the subset parameter
+        test_subset=test_subset 
     )
 
 

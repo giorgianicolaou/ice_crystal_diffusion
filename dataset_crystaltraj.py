@@ -146,13 +146,11 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
     target = target[:, :horizon, :]
     print(f"  Trimmed to horizon: {target.shape}")
 
-    # Replace NaNs with placeholder value
     target = np.nan_to_num(target, nan=NAN_PLACEHOLDER)
 
     placeholder_count = np.sum(np.abs(target - NAN_PLACEHOLDER) < 1e-3)
     print(f"  Placeholders: {placeholder_count} ({100*placeholder_count/target.size:.2f}%)")
 
-    # Create train/test/val splits BEFORE any filtering
     print("\nCreating data splits (before filtering)...")
     indices = np.arange(target.shape[0])
     train_idx, temp_idx = train_test_split(indices, test_size=0.2, random_state=42)
@@ -174,19 +172,15 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
         
         print(f"  Crystals: {len(trimmed_crystal_df)}")
         
-        # ALWAYS filter by VAE embeddings to ensure consistent dataset sizes
-        # This ensures combined, vae_only, and 2d_only all use the same samples
         print(f"\n  Loading VAE embeddings to determine valid samples...")
         vae_embeddings, vae_valid_mask = load_vae_embeddings(trimmed_crystal_df)
         
         print(f"  Filtering all data to crystals with VAE embeddings...")
         print(f"    Keeping {vae_valid_mask.sum()}/{len(vae_valid_mask)} crystals")
         
-        # Filter EVERYTHING by the VAE mask
         trimmed_crystal_df = trimmed_crystal_df[vae_valid_mask]
         target = target[vae_valid_mask]
         
-        # Update indices to reflect filtered dataset
         old_to_new_idx = np.full(len(vae_valid_mask), -1, dtype=int)
         old_to_new_idx[vae_valid_mask] = np.arange(vae_valid_mask.sum())
         
@@ -200,20 +194,17 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
         
         print(f"    After filtering - Train: {len(train_idx)}, Val: {len(val_idx)}, Test: {len(test_idx)}")
         
-        # Now load features based on conditioning type
         features_list = []
         feature_names = []
         vae_features = None
         traits_2d_features = None
         
         if conditioning_type in ['combined', 'vae_only']:
-            # VAE embeddings - WILL be normalized
             vae_features = vae_embeddings
             features_list.append(vae_embeddings)
             feature_names.append('VAE')
         
         if conditioning_type in ['combined', '2d_only']:
-            # 2D traits - WILL be normalized
             traits_2d_features = load_2d_traits(trimmed_crystal_df)
             features_list.append(traits_2d_features)
             feature_names.append('2D')
@@ -221,7 +212,6 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
         if len(features_list) == 0:
             raise ValueError(f"No features loaded for conditioning_type={conditioning_type}")
         
-        # Normalize VAE embeddings (if present)
         if vae_features is not None:
             print(f"\n  Normalizing VAE embeddings...")
             vae_norm, vae_mean, vae_std = z_score_normalize(
@@ -229,7 +219,6 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
             )
             vae_features = vae_norm.squeeze(1)
         
-        # Normalize 2D traits (if present)
         if traits_2d_features is not None:
             print(f"\n  Normalizing 2D traits...")
             traits_2d_norm, traits_2d_mean, traits_2d_std = z_score_normalize(
@@ -237,7 +226,6 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
             )
             traits_2d_features = traits_2d_norm.squeeze(1)
         
-        # Reconstruct features list with normalized features
         features_list = []
         if vae_features is not None:
             features_list.append(vae_features)
@@ -249,35 +237,27 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
         combined_features = np.concatenate(features_list, axis=1) if len(features_list) > 1 else features_list[0]
         print(f"  Combined features: {' + '.join(feature_names)}, shape: {combined_features.shape}")
         
-        # Now repeat across time dimension
         data = np.repeat(combined_features[:, None, :], horizon, axis=1)
         
-        # Replace NaNs with placeholder value
         data = np.nan_to_num(data, nan=NAN_PLACEHOLDER)
         
-        # Save normalization parameters
         if conditioning_type == '2d_only':
             save_suffix = "_2d"
             np.save(f"data_mean{save_suffix}.npy", traits_2d_mean)
             np.save(f"data_std{save_suffix}.npy", traits_2d_std)
             print(f"  Saved data_mean{save_suffix}.npy and data_std{save_suffix}.npy")
         elif conditioning_type == 'vae_only':
-            # VAE only - save VAE normalization params
             save_suffix = "_vae"
             np.save(f"data_mean{save_suffix}.npy", vae_mean)
             np.save(f"data_std{save_suffix}.npy", vae_std)
             print(f"  Saved data_mean{save_suffix}.npy and data_std{save_suffix}.npy")
         elif conditioning_type == 'combined':
-            # Combined - save both VAE and 2D traits params
             save_suffix = ""
-            # Create combined mean/std
             combined_mean = np.zeros((1, 1, combined_features.shape[1]), dtype=np.float32)
             combined_std = np.ones((1, 1, combined_features.shape[1]), dtype=np.float32)
-            # Fill in VAE portion
             vae_dim = vae_features.shape[1]
             combined_mean[0, 0, :vae_dim] = vae_mean[0, 0, :]
             combined_std[0, 0, :vae_dim] = vae_std[0, 0, :]
-            # Fill in 2D traits portion
             combined_mean[0, 0, vae_dim:] = traits_2d_mean[0, 0, :]
             combined_std[0, 0, vae_dim:] = traits_2d_std[0, 0, :]
             np.save(f"data_mean{save_suffix}.npy", combined_mean)
@@ -325,9 +305,5 @@ def get_dataloader(config, wandb_run=None, batch_size=None, shuffle=True):
         'val': create_loader(val_idx, 'Val'),
         'test': create_loader(test_idx, 'Test')
     }
-    
-    print("="*80)
-    print("DATALOADER INITIALIZATION COMPLETE")
-    print("="*80 + "\n")
     
     return loaders
