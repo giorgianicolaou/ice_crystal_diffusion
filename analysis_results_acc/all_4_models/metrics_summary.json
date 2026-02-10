@@ -1,0 +1,576 @@
+{
+    "crps": {
+        "normalized": {
+            "Combined": {
+                "global": {
+                    "mean": 0.33918000741170284,
+                    "variance": 0.3318952141059212
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.2972459089736422,
+                        "WRF_PRES": 0.303127531954899,
+                        "WRF_RELH": 0.45649683224786713,
+                        "WRF_PHI": 0.20656920967678336,
+                        "WRF_PHIS": 0.8880345891937982,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.20316804931292368,
+                        "WRF_PRES": 0.4954027079631665,
+                        "WRF_RELH": 0.20458508362613612,
+                        "WRF_PHI": 0.29265388750953686,
+                        "WRF_PHIS": 8.458615798517402,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "2D traits": {
+                "global": {
+                    "mean": 0.34900959258831393,
+                    "variance": 0.3497853021976913
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.3093649748204943,
+                        "WRF_PRES": 0.31580749922762963,
+                        "WRF_RELH": 0.46459876836755715,
+                        "WRF_PHI": 0.20661433036302232,
+                        "WRF_PHIS": 0.8860440761152902,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.20941150435677802,
+                        "WRF_PRES": 0.5353427381002069,
+                        "WRF_RELH": 0.21876067903254237,
+                        "WRF_PHI": 0.2917625741392194,
+                        "WRF_PHIS": 8.438059812529367,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "Unconditional": {
+                "global": {
+                    "mean": 0.455703431609233,
+                    "variance": 0.3438329177007727
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.5096260824362288,
+                        "WRF_PRES": 0.4395695622774767,
+                        "WRF_RELH": 0.49019994824486923,
+                        "WRF_PHI": 0.22738192745169078,
+                        "WRF_PHIS": 0.9351946365837736,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.1906905688142736,
+                        "WRF_PRES": 0.5395076839447306,
+                        "WRF_RELH": 0.20997768019665505,
+                        "WRF_PHI": 0.3124788846628543,
+                        "WRF_PHIS": 8.227896343368474,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "VAE only": {
+                "global": {
+                    "mean": 0.3884072105241134,
+                    "variance": 0.3603312663462833
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.38698516610354605,
+                        "WRF_PRES": 0.36356113938741647,
+                        "WRF_RELH": 0.4679602101761772,
+                        "WRF_PHI": 0.21599154467424211,
+                        "WRF_PHIS": 0.8827931973967234,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.23604417122657625,
+                        "WRF_PRES": 0.5489108575833531,
+                        "WRF_RELH": 0.21808482404063587,
+                        "WRF_PHI": 0.3017535075301248,
+                        "WRF_PHIS": 8.309739476661882,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            }
+        },
+        "unnormalized": {
+            "Combined": {
+                "global": {
+                    "mean": 16.99427657687965,
+                    "variance": 3370.282298559872
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 6.174877708207189,
+                        "WRF_PRES": 43.3417005147448,
+                        "WRF_RELH": 7.277293313404588,
+                        "WRF_PHI": 0.15578473035573392,
+                        "WRF_PHIS": 0.23731350964145767,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 87.67592580893309,
+                        "WRF_PRES": 10127.902293209856,
+                        "WRF_RELH": 51.99219931368879,
+                        "WRF_PHI": 0.1664458209263574,
+                        "WRF_PHIS": 0.6040660938714525,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "2D traits": {
+                "global": {
+                    "mean": 17.650165598690382,
+                    "variance": 3643.0866754193357
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 6.426634746009375,
+                        "WRF_PRES": 45.15470423805299,
+                        "WRF_RELH": 7.4064511988144845,
+                        "WRF_PHI": 0.15581875824377298,
+                        "WRF_PHIS": 0.2367815758064515,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 90.37025054684136,
+                        "WRF_PRES": 10944.427347097686,
+                        "WRF_RELH": 55.594712110305636,
+                        "WRF_PHI": 0.16593888972893636,
+                        "WRF_PHIS": 0.6025981025999202,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "Unconditional": {
+                "global": {
+                    "mean": 24.307392536854348,
+                    "variance": 3980.6346510209146
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 10.586785691423838,
+                        "WRF_PRES": 62.85041876850196,
+                        "WRF_RELH": 7.81457515932265,
+                        "WRF_PHI": 0.17148069797649954,
+                        "WRF_PHIS": 0.2499163029303237,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 82.29134561445036,
+                        "WRF_PRES": 11029.574569532699,
+                        "WRF_RELH": 53.362646028294314,
+                        "WRF_PHI": 0.177721215058749,
+                        "WRF_PHIS": 0.5875894263679595,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "VAE only": {
+                "global": {
+                    "mean": 20.19007883411004,
+                    "variance": 3838.8265887642956
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 8.039088187388764,
+                        "WRF_PRES": 51.98260257162408,
+                        "WRF_RELH": 7.460037984678504,
+                        "WRF_PHI": 0.16289060987764933,
+                        "WRF_PHIS": 0.23591282874692296,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 101.86341461701456,
+                        "WRF_PRES": 11221.810950818559,
+                        "WRF_RELH": 55.422953804061926,
+                        "WRF_PHI": 0.17162119630692646,
+                        "WRF_PHIS": 0.5934341961289192,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            }
+        }
+    },
+    "variance": {
+        "normalized": {
+            "Combined": {
+                "global": {
+                    "mean": 0.4181735781956309,
+                    "variance": 103.5704875001463
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.3525519493908465,
+                        "WRF_PRES": 0.48805906916023234,
+                        "WRF_RELH": 0.6070444682986504,
+                        "WRF_PHI": 0.09186156503102837,
+                        "WRF_PHIS": 0.5671214404670987,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.08096426058862939,
+                        "WRF_PRES": 0.469784958608979,
+                        "WRF_RELH": 0.14247130163740468,
+                        "WRF_PHI": 4.276453717188019,
+                        "WRF_PHIS": 577.6046809265014,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "2D traits": {
+                "global": {
+                    "mean": 1.6539069411075882,
+                    "variance": 416194.2837825317
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.3788806316880256,
+                        "WRF_PRES": 0.46933108437953003,
+                        "WRF_RELH": 0.6244995196723385,
+                        "WRF_PHI": 6.229858397929376,
+                        "WRF_PHIS": 0.6017040631984717,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.09321898093163603,
+                        "WRF_PRES": 0.45100983146094026,
+                        "WRF_RELH": 0.14541086774835651,
+                        "WRF_PHI": 2090792.8210849108,
+                        "WRF_PHIS": 2847.5654891621252,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "Unconditional": {
+                "global": {
+                    "mean": 1.302576270455835,
+                    "variance": 66795.67286804893
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.8381569862695308,
+                        "WRF_PRES": 0.7429375265225866,
+                        "WRF_RELH": 0.7683658694691656,
+                        "WRF_PHI": 2.868489754062307,
+                        "WRF_PHIS": 0.4900988649012914,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.14837369097661918,
+                        "WRF_PRES": 0.20069064636267162,
+                        "WRF_RELH": 0.1225233211961902,
+                        "WRF_PHI": 267807.46165457397,
+                        "WRF_PHIS": 0.37525484555233135,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "VAE only": {
+                "global": {
+                    "mean": 0.4655097952155966,
+                    "variance": 8.922220947560485
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 0.5765976077793541,
+                        "WRF_PRES": 0.5736761699382201,
+                        "WRF_RELH": 0.6264190182249012,
+                        "WRF_PHI": 0.07893779812343026,
+                        "WRF_PHIS": 0.48462974161344413,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 0.13446254325960566,
+                        "WRF_PRES": 0.35227033657959544,
+                        "WRF_RELH": 0.09800594879302546,
+                        "WRF_PHI": 0.2183105952966121,
+                        "WRF_PHIS": 120.3129882014778,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            }
+        },
+        "unnormalized": {
+            "Combined": {
+                "global": {
+                    "mean": 2123.015678328688,
+                    "variance": 56591451.73670605
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 152.14162689064378,
+                        "WRF_PRES": 9977.770940509672,
+                        "WRF_RELH": 154.27114998884772,
+                        "WRF_PHI": 0.05224592782823873,
+                        "WRF_PHIS": 0.040500580294212496,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 15077.982161072297,
+                        "WRF_PRES": 196345698.95179492,
+                        "WRF_RELH": 9201.440327584261,
+                        "WRF_PHI": 1.383314687585893,
+                        "WRF_PHIS": 2.945785112167575,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "2D traits": {
+                "global": {
+                    "mean": 1987.4275210975557,
+                    "variance": 52405731.35834339
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 163.50360791358491,
+                        "WRF_PRES": 9594.900189555858,
+                        "WRF_RELH": 158.70708671038702,
+                        "WRF_PHI": 3.5432090899869286,
+                        "WRF_PHIS": 0.04297027406484975,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 17360.179928055106,
+                        "WRF_PRES": 188498671.50820485,
+                        "WRF_RELH": 9391.290787628146,
+                        "WRF_PHI": 676313.7425015048,
+                        "WRF_PHIS": 14.522590105123058,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "Unconditional": {
+                "global": {
+                    "mean": 3927.5237278310947,
+                    "variance": 63104421.64892162
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 361.7014959104242,
+                        "WRF_PRES": 15188.44937254412,
+                        "WRF_RELH": 195.26853877345937,
+                        "WRF_PHI": 1.6314430155436663,
+                        "WRF_PHIS": 0.035000067029186316,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 27631.646969330897,
+                        "WRF_PRES": 83878260.70430753,
+                        "WRF_RELH": 7913.109628165262,
+                        "WRF_PHI": 86628.31861429926,
+                        "WRF_PHIS": 0.0019138005175506226,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            },
+            "VAE only": {
+                "global": {
+                    "mean": 2815.740717618602,
+                    "variance": 58171322.0756422
+                },
+                "per_variable": {
+                    "mean": {
+                        "WRF_TEMP": 248.8271537297643,
+                        "WRF_PRES": 11728.107885632262,
+                        "WRF_RELH": 159.19489817160618,
+                        "WRF_PHI": 0.044895582851040894,
+                        "WRF_PHIS": 0.03460949342174879,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    },
+                    "variance": {
+                        "WRF_TEMP": 25040.9725706243,
+                        "WRF_PRES": 147230693.93389207,
+                        "WRF_RELH": 6329.666951891899,
+                        "WRF_PHI": 0.07061744915317315,
+                        "WRF_PHIS": 0.6135964979989573,
+                        "WRF_QICE": NaN,
+                        "WRF_QSNOW": NaN,
+                        "WRF_QVAPOR": NaN,
+                        "WRF_QCLOUD": NaN,
+                        "WRF_QRAIN": NaN
+                    }
+                }
+            }
+        }
+    },
+    "jsd": {
+        "Combined": {
+            "WRF_TEMP": 0.03227201271672949,
+            "WRF_PRES": 0.13908606747024363,
+            "WRF_RELH": 0.006626244447357493,
+            "WRF_PHI": 0.031922824254363005,
+            "WRF_PHIS": 0.08828215123430269,
+            "WRF_QICE": NaN,
+            "WRF_QSNOW": NaN,
+            "WRF_QVAPOR": NaN,
+            "WRF_QCLOUD": NaN,
+            "WRF_QRAIN": NaN
+        },
+        "2D traits": {
+            "WRF_TEMP": 0.03752353577271,
+            "WRF_PRES": 0.19850215011120492,
+            "WRF_RELH": 0.00895056143510715,
+            "WRF_PHI": 0.022989895888003323,
+            "WRF_PHIS": 0.08534403108930647,
+            "WRF_QICE": NaN,
+            "WRF_QSNOW": NaN,
+            "WRF_QVAPOR": NaN,
+            "WRF_QCLOUD": NaN,
+            "WRF_QRAIN": NaN
+        },
+        "Unconditional": {
+            "WRF_TEMP": 0.08576902278743079,
+            "WRF_PRES": 0.2034697367766451,
+            "WRF_RELH": 0.015190060911810868,
+            "WRF_PHI": 0.4299411585190164,
+            "WRF_PHIS": 0.5649119930937401,
+            "WRF_QICE": NaN,
+            "WRF_QSNOW": NaN,
+            "WRF_QVAPOR": NaN,
+            "WRF_QCLOUD": NaN,
+            "WRF_QRAIN": NaN
+        },
+        "VAE only": {
+            "WRF_TEMP": 0.03429444788532376,
+            "WRF_PRES": 0.14492381958228698,
+            "WRF_RELH": 0.007823276595390304,
+            "WRF_PHI": 0.04037565900109169,
+            "WRF_PHIS": 0.08306063792048002,
+            "WRF_QICE": NaN,
+            "WRF_QSNOW": NaN,
+            "WRF_QVAPOR": NaN,
+            "WRF_QCLOUD": NaN,
+            "WRF_QRAIN": NaN
+        }
+    }
+}

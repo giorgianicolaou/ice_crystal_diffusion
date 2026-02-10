@@ -1,0 +1,21 @@
+#!/bin/bash -l
+#PBS -N train-combined
+#PBS -A UCLB0047
+#PBS -l select=1:ncpus=1:mpiprocs=1:ngpus=1:gpu_type=v100:mem=128GB
+#PBS -l walltime=20:00:00
+#PBS -q casper
+#PBS -j oe
+#PBS -m abe
+
+
+export TMPDIR=${SCRATCH}/temp
+mkdir -p ${TMPDIR}
+
+### Provide CUDA runtime libraries
+module load cuda
+source activate /glade/u/home/gnicolaou/miniconda/envs/ice
+
+cd /glade/u/home/gnicolaou/ice-summer-2025/csdi_for_generation
+
+### Run program
+python train_traj.py --config base_conditional_combined.yaml

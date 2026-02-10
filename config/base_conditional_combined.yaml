@@ -1,0 +1,37 @@
+train:
+  epochs: 1000
+  batch_size: 32 
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-6
+
+diffusion:
+  layers: 4 
+  channels: 64 
+  nheads: 8
+  diffusion_embedding_dim: 128
+  beta_start: 0.0001
+  beta_end: 0.5
+  num_steps: 50
+  schedule: "linear"
+
+model:
+  model_directory: "/glade/u/home/gnicolaou/ice-summer-2025/diffusion_exploration/time-series-diffusion/baselines/csdi_for_generation"
+  model_folder: ""
+  device: "cuda"
+  is_unconditional: false
+  conditioning_type: "combined"
+  horizon: 50
+  target_dim: 10
+  target_vars: ['WRF_TEMP', 'WRF_PRES', 'WRF_RELH', 'WRF_PHI', 'WRF_PHIS', 'WRF_QICE', 'WRF_QSNOW', 'WRF_QVAPOR', 'WRF_QCLOUD', 'WRF_QRAIN']
+  cond_dim: 64 
+
+wandb_run:
+  project: trajectory-diffusion
+  run_name: diffusion-combined
+  config:
+    learning_rate: 0.0001
+    batch_size: 32
+    epochs: 1000
+    model: CSDI
+    timeemb: 128
+    featureemb: 16

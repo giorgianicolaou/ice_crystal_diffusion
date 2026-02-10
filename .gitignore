@@ -1,0 +1,13 @@
+wandb/
+synthetic_samples/
+synthetic_samples_test/
+kde_analysis/
+analysis_results/
+analysis_results_simple/
+
+__pycache__/
+#*.pyc
+
+batch_scripts/*
+!batch_scripts/
+!batch_scripts/*.pbs
