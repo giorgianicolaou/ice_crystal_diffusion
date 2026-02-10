@@ -30,7 +30,6 @@ class CSDI_base(nn.Module):
         
         config_diff = config["diffusion"]
         
-        # Simplified side_dim calculation without masking
         if self.is_unconditional:
             config_diff["side_dim"] = self.emb_total_dim
         else:
@@ -87,7 +86,6 @@ class CSDI_base(nn.Module):
         side_info = torch.cat([time_embed, feature_embed], dim=-1)
         side_info = side_info.permute(0, 3, 2, 1)
 
-        # Add conditioning information if not unconditional
         if not self.is_unconditional:
             B, D, T = conditioning_data.shape
             K = self.target_dim
@@ -124,10 +122,7 @@ class CSDI_base(nn.Module):
         
         Returns data in shape (B, K, L) where K=target_dim, L=horizon
         This is then converted to (B, L, K) = (B, T, D) in the generation script.
-        
-        Returns NORMALIZED data (mean~0, std~1).
         """
-        # Determine batch size and conditioning
         if batch is not None:
             conditioning_data = batch["conditioning_data"].to(self.device).float()
             B, D, L = conditioning_data.shape
@@ -140,48 +135,38 @@ class CSDI_base(nn.Module):
             else:
                 raise ValueError(f"conditioning_data must be a tensor, got {type(conditioning_data)}")
         elif batch_size is not None:
-            # Unconditional generation with specified batch size
             B = batch_size
             D = self.cond_dim if hasattr(self, 'cond_dim') and self.cond_dim > 0 else 1
             L = self.horizon
             conditioning_data = torch.zeros(B, D, L).to(self.device)
             timepoints = torch.arange(L).to(self.device).unsqueeze(0).repeat(B, 1).float()
         else:
-            # Default unconditional generation
             B = 32
             D = self.cond_dim if hasattr(self, 'cond_dim') and self.cond_dim > 0 else 1
             L = self.horizon
             conditioning_data = torch.zeros(B, D, L).to(self.device)
             timepoints = torch.arange(L).to(self.device).unsqueeze(0).repeat(B, 1).float()
 
-        # Get side information
         side_info = self.get_side_info(timepoints, conditioning_data)
 
-        # Initialize with pure noise - shape (B, K, L)
         K = self.target_dim
         sample_output = torch.zeros(B, K, L).to(self.device)
         synthesized_output = torch.randn_like(sample_output)
 
-        # DDPM reverse process
         for tidx in reversed(range(self.num_steps)):
-            # Add channel dimension for diffusion model input
             input_data = synthesized_output.unsqueeze(1)  # (B, 1, K, L)
             
-            # Predict noise
             predicted_noise = self.diffmodel(
                 input_data, 
                 side_info, 
                 torch.tensor([tidx]).to(self.device)
             )
 
-            # DDPM denoising coefficients
             coeff1 = 1 / self.alpha_hat[tidx] ** 0.5
             coeff2 = (1 - self.alpha_hat[tidx]) / (1 - self.alpha[tidx]) ** 0.5
             
-            # Compute mean of posterior
             synthesized_output = coeff1 * (synthesized_output - coeff2 * predicted_noise)
 
-            # Add noise for all steps except the last
             if tidx > 0:
                 noise = torch.randn_like(sample_output)
                 sigma = (
@@ -189,16 +174,13 @@ class CSDI_base(nn.Module):
                 ) ** 0.5
                 synthesized_output += sigma * noise
 
-        # Return shape (B, K, L) - will be transposed to (B, L, K) = (B, T, D) externally
         return synthesized_output
 
     def forward(self, batch, is_train=1):
         observed_data = batch["observed_data"].to(self.device).float()
         observed_tp = batch["timepoints"].to(self.device).float()
         
-        # Handle conditioning data based on whether model is unconditional
         if self.is_unconditional:
-            # Create dummy conditioning data for unconditional model
             B, K, L = observed_data.shape
             conditioning_data = torch.zeros(B, 0, L).to(self.device).float()
         else:
