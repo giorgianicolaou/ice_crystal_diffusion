@@ -8,6 +8,7 @@ analysis_results_acc/
 kde_masked_output/
 crps_ci_plots/
 crps_plot.py
+kde_plot.py
 
 __pycache__/
 #*.pyc
