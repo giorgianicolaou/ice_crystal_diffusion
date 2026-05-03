@@ -38,7 +38,6 @@ The pipeline consists of:
 ├── train_traj.py               # Training script for the diffusion model
 ├── synthetic_sample_generator.py  # Inference / sample generation
 ├── final_compare_models.py     # Evaluation: CRPS, JSD, comparison plots
-├── kde_plot.py                 # Kernel density estimation plots
 ├── utils.py                    # Helper functions
 └── *.npy                       # Normalization statistics (means/stds)
 ```
