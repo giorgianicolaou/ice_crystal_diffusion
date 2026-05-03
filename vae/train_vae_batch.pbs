@@ -1,0 +1,18 @@
+#!/bin/bash -l
+#PBS -N train_vae_batch
+#PBS -A UCLB0047
+#PBS -q casper
+#PBS -l select=1:ncpus=8:ngpus=1:mem=64GB
+#PBS -l gpu_type=v100
+#PBS -l walltime=08:00:00
+#PBS -j oe
+
+export TMPDIR=${SCRATCH}/vae_temp
+mkdir -p ${TMPDIR}
+
+module load conda
+source activate /glade/u/home/gnicolaou/miniconda/envs/ice
+
+cd /glade/u/home/gnicolaou/ice-summer-2025/VAE
+
+python train.py
