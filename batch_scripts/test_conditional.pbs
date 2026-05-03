@@ -15,4 +15,5 @@ source activate /glade/u/home/gnicolaou/miniconda/envs/ice
 
 cd /glade/u/home/gnicolaou/ice-summer-2025/csdi_for_generation
 
-python final_compare_models.py
+#python final_compare_models.py
+python crps_plot.py

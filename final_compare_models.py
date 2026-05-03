@@ -923,10 +923,6 @@ def plot_trajectories_ci_cond_vs_uncond_direct(
             plt.savefig(os.path.join(outdir, f"traj_ci_cond{k}_{var_names[d]}.png"))
             plt.close()
 
-
-# =========================================================
-# METRICS EXPORT
-# =========================================================
 def _summarize_metric(arr_ktd: np.ndarray, var_names: List[str]) -> Dict[str, Any]:
     arr_flat = arr_ktd[np.isfinite(arr_ktd)]
     _, _, D = arr_ktd.shape
@@ -1030,7 +1026,6 @@ def run_analysis_suite(
 
         synth_unnorm = unnormalize(synth_norm_trimmed, mu, sd)
 
-        # NEW: conditional masking only for synth samples that have near-zero tails
         synth_unnorm_masked = apply_real_tail_mask_nan_ksdt_if_synth_tail_zero(
             synth_unnorm_ksdt=synth_unnorm,
             real_mask_ktd=mask_ktd,
